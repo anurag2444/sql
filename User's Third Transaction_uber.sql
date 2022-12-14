@@ -32,3 +32,17 @@ FROM
 ROW_NUMBER() OVER(PARTITION BY user_id ORDER BY transaction_date) AS row
 FROM transactions) row_table
 WHERE row=3;
+
+
+
+Solution - 2 using CTE 
+======================================================================
+
+WITH row_table (user_id, spend, transaction_date, row) AS
+(SELECT user_id,spend,transaction_date, 
+ROW_NUMBER() OVER(PARTITION BY user_id ORDER BY transaction_date)
+FROM transactions)
+
+SELECT user_id, spend, transaction_date
+FROM row_table
+WHERE row=3;
